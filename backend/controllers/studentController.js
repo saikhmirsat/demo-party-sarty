@@ -12,7 +12,7 @@ exports.registerStudent = async (req, res) => {
     const { name, dob, className, section, address, parentName, contactNumber } = req.body;
     const uniqueId = uuidv4();
 
-    const qrDataUrl = await generateQRCode(`https://yourdomain.com/student/${uniqueId}`);
+    const qrDataUrl = await generateQRCode(`https://demo-party-sarty.vercel.app/student/${uniqueId}`);
 
     const newStudent = await Student.create({
       name, dob, className, section, address,
