@@ -8,7 +8,7 @@ const app = express();
 
 connectDB();
 app.use(cors({
-  origin: ["http://localhost:3000", "http://127.0.0.1:5173","https://demo-party-sarty.vercel.app/"], // allowed origins
+  origin: ["http://localhost:3000", "http://127.0.0.1:5173","https://demo-party-sarty.vercel.app"], // allowed origins
   methods: ["GET", "POST", "PUT", "DELETE"], // allowed methods
   credentials: true // if using cookies or auth headers
 }));
