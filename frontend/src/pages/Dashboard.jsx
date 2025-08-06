@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "../services/api";
 import StudentCard from "../components/StudentCard";
 import { useAuth } from "../context/AuthContext";
-import { CopyToClipboard } from "react-copy-to-clipboard";
+import copy from "copy-to-clipboard"; // Correct import: 'copy' is a function, not a component
 import { toast, Toaster } from "react-hot-toast";
 
 const Dashboard = () => {
@@ -41,7 +41,9 @@ const Dashboard = () => {
     }
   };
 
-  const onCopy = () => {
+  // This function will now use the 'copy' function from 'copy-to-clipboard'
+  const handleCopy = () => {
+    copy(registrationLink); // Call the copy function with the link
     toast.success("Link copied to clipboard!");
   };
 
@@ -82,11 +84,13 @@ const Dashboard = () => {
           {registrationLink && (
             <div className="flex-1 flex items-center bg-gray-50 dark:bg-gray-700 p-3 rounded-lg border border-gray-200 dark:border-gray-600">
               <span className="truncate text-sm font-mono flex-1 mr-4">{registrationLink}</span>
-              <CopyToClipboard text={registrationLink} onCopy={onCopy}>
-                <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-3 rounded-md transition duration-200 ease-in-out">
-                  Copy
-                </button>
-              </CopyToClipboard>
+              {/* Changed from CopyToClipboard component to a regular button with onClick */}
+              <button 
+                onClick={handleCopy} // Call the new handleCopy function
+                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-3 rounded-md transition duration-200 ease-in-out"
+              >
+                Copy
+              </button>
             </div>
           )}
         </div>
