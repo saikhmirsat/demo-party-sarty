@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "../services/api";
 import StudentCard from "../components/StudentCard";
 import { useAuth } from "../context/AuthContext";
-import copy from "copy-to-clipboard"; // Correct import: 'copy' is a function, not a component
+import copy from "copy-to-clipboard";
 import { toast, Toaster } from "react-hot-toast";
 
 const Dashboard = () => {
@@ -41,33 +41,32 @@ const Dashboard = () => {
     }
   };
 
-  // This function will now use the 'copy' function from 'copy-to-clipboard'
   const handleCopy = () => {
-    copy(registrationLink); // Call the copy function with the link
+    copy(registrationLink);
     toast.success("Link copied to clipboard!");
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 p-6">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 p-4 sm:p-6">
       <Toaster position="top-right" />
       
-      <header className="flex justify-between items-center mb-6 pb-4 border-b border-gray-200 dark:border-gray-700">
-        <h1 className="text-3xl font-extrabold">Admin Dashboard</h1>
+      <header className="flex flex-col sm:flex-row justify-between items-center mb-6 pb-4 border-b border-gray-200 dark:border-gray-700">
+        <h1 className="text-2xl sm:text-3xl font-extrabold mb-4 sm:mb-0">Admin Dashboard</h1>
         <button
           onClick={logout}
-          className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200 ease-in-out"
+          className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200 ease-in-out w-full sm:w-auto"
         >
           Logout
         </button>
       </header>
 
-      <section className="mb-8 p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
-        <h2 className="text-xl font-semibold mb-4">Manage Registrations</h2>
-        <div className="flex items-center space-x-4">
+      <section className="mb-8 p-4 sm:p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+        <h2 className="text-lg sm:text-xl font-semibold mb-4">Manage Registrations</h2>
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4"> {/* Changed to flex-col and gap for mobile */}
           <button
             onClick={handleCreateLink}
             disabled={loading}
-            className={`bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg transition duration-200 ease-in-out ${
+            className={`flex-shrink-0 w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg transition duration-200 ease-in-out ${
               loading ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
@@ -82,12 +81,11 @@ const Dashboard = () => {
           </button>
 
           {registrationLink && (
-            <div className="flex-1 flex items-center bg-gray-50 dark:bg-gray-700 p-3 rounded-lg border border-gray-200 dark:border-gray-600">
-              <span className="truncate text-sm font-mono flex-1 mr-4">{registrationLink}</span>
-              {/* Changed from CopyToClipboard component to a regular button with onClick */}
+            <div className="flex-1 flex flex-col sm:flex-row items-stretch sm:items-center bg-gray-50 dark:bg-gray-700 p-3 rounded-lg border border-gray-200 dark:border-gray-600 min-w-0"> {/* Added min-w-0 for truncation */}
+              <span className="truncate text-sm font-mono flex-1 mb-2 sm:mb-0 sm:mr-4 break-all">{registrationLink}</span> {/* Added break-all */}
               <button 
-                onClick={handleCopy} // Call the new handleCopy function
-                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-3 rounded-md transition duration-200 ease-in-out"
+                onClick={handleCopy}
+                className="flex-shrink-0 bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-3 rounded-md transition duration-200 ease-in-out w-full sm:w-auto"
               >
                 Copy
               </button>
@@ -97,8 +95,8 @@ const Dashboard = () => {
       </section>
 
       <section>
-        <h2 className="text-2xl font-bold mb-4">All Students</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <h2 className="text-xl sm:text-2xl font-bold mb-4">All Students</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
           {students.length > 0 ? (
             students.map((student) => (
               <StudentCard key={student._id} student={student} />
